@@ -1,7 +1,7 @@
-name: docker
+name: docker-iptables
 version: '28.4.0'
-summary: Docker container runtime
-description: Refer to https://snapcraft.io/docker
+summary: Docker container runtime, with legacy iptables support
+description: Refer to https://snapcraft.io/docker-iptables
 license: (Apache-2.0 AND MIT AND GPL-2.0)
 
 grade: stable
@@ -147,6 +147,11 @@ parts:
     stage-packages:
       - jq
       - pciutils
+      - iptables
+    override-build: |
+      craftctl default
+      ln -sf iptables-legacy $CRAFT_PART_INSTALL/usr/sbin/iptables
+      ln -sf ip6tables-legacy $CRAFT_PART_INSTALL/usr/sbin/ip6tables
 
   engine:
     plugin: make
